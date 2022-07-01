@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Beba Água</string>
+
+    <string name="amount_of_water">Quantidade (ml)</string>
+    <string name="input">Insira um valor válido</string>
+
+    <string name="calcu">Calcular</string>
+    <string name="cancel">Cancelar</string>
+    <string name="see_schedules">Ver horários</string>
+    <string name="back">Voltar</string>
+    <string name="block">Bloqueado</string>
+
+    <string name="save">Preferências salvas</string>
+    <string name="delete">Preferências deletadas</string>
+
+    <string name="drink_water_at">Beba Água às: %02d:%02dh </string>
+    <string name="hours_drink_water">Hora de beber água</string>
+
+    <string name="why">Por que beber água?</string>
+    <string name="why_response">A água tem participação em quase todos os processos fisiológicos do corpo humano. Sem ela, aliás, nosso organismo entra em colapso e prejudica a nossa saúde a curto e longo prazo. Beber água é importante para equilibrar as funções do corpo humano.</string>
+    <string name="how_much">Quanto beber?</string>
+    <string name="how_muck_response">Para adultos deve-se beber por dia, em média, 2 litros de água potável.</string>
+    <string name="benefits">Benefícios</string>
+    <string name="benefits_response">* Regula a temperatura corporal \n* Facilita a absorção de nutrientes \n* Evita doenças \n* Regula o intestino \n* Combate acne, celulite e estria \n* Facilita a digestão \n* Diminui o inchaço \n* Aumenta a imunidade \n* Reduz a fome \n* Melhora a circulação sanguínea \n* Funciona como rejuvenescedor natural \n* Ajuda a dissolver substâncias ruins \n* É essencial para os processos fisiológicos: absorção, digestão, excreção e assimilação</string>
+
+    <string name="tutorial">Tutorial</string>
+
+    <string name="alert_water_title">Beba um copo de água agora</string>
+    <string name="alert_water_message">Nos próximos horários de beber água, iremos lhe notificar</string>
+
+    <string name="running_text_notification">Estamos nos preparando para lhe notificar</string>
+    <string name="alert">Alerta</string>
+
+    <string name="error">Houve algum erro, tente novamente</string>
+</resources>
