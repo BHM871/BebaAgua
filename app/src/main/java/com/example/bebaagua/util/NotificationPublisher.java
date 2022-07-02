@@ -47,7 +47,7 @@ public class NotificationPublisher extends BroadcastReceiver {
                         .setContentIntent(intent)
                         .setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_SOUND)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.mipmap.ic_icon_round)
                         .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         String channelId = "YOUR_CHANNEL_ID";

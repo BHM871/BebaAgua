@@ -13,11 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bebaagua.R;
 import com.example.bebaagua.model.InfoList;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OpenInfoActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,12 @@ public class OpenInfoActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         }
+
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        mAdView = findViewById(R.id.ad_view_info);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         RecyclerView rvInfo = findViewById(R.id.recycler_view_info);
 

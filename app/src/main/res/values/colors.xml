@@ -21,4 +21,6 @@
     <color name="red_transparent">#CCFF0000</color>
     <color name="red_dark">#FF7F0000</color>
     <color name="red_dark_transparent">#CC7F0000</color>
+
+    <color name="ic_icon_background">#1C8FBD</color>
 </resources>

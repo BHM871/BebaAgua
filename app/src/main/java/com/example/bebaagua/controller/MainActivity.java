@@ -33,87 +33,29 @@ import com.example.bebaagua.model.Alarm;
 import com.example.bebaagua.util.DatabaseWater;
 import com.example.bebaagua.util.ForegroundService;
 import com.example.bebaagua.util.NotificationPublisher;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private LinearLayout linearSeeSchedules;
-
     private RecyclerView listSeeSchedules;
     private long idListNotification;
-
     private TimePicker timerStartAlarms;
     private EditText editAmountsOfWater;
-
     private SharedPreferences preferences;
-
     private Button btnCalc, btnSeeSchedules;
-
     private int hours, minutes, amountsWater, cont = 0;
-
     private Intent notificationIntent;
     private AlarmManager alarmManager;
     private PendingIntent broadcast = null;
-
     private Intent intentForeground;
-
     private boolean activator = false, seeOrNo = false;
-
-    @SuppressLint({"RestrictedApi", "UnspecifiedImmutableFlag"})
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        idListNotification = 0;
-
-        setSupportActionBar(findViewById(R.id.toolbar_main));
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle("");
-
-        linearSeeSchedules = findViewById(R.id.linear_hours);
-
-        listSeeSchedules = findViewById(R.id.recycler_view_list_schedules);
-
-        timerStartAlarms = findViewById(R.id.timer);
-        timerStartAlarms.setIs24HourView(true);
-        editAmountsOfWater = findViewById(R.id.edit_amounts_of_water);
-
-        btnCalc = findViewById(R.id.btn_calcu);
-        btnSeeSchedules = findViewById(R.id.btn_see_schedules);
-
-        preferences = getSharedPreferences("db", Context.MODE_PRIVATE);
-        boolean activated = preferences.getBoolean("activated", false);
-
-        setupUI(activated, preferences);
-
-        btnCalc.setOnClickListener(calcuListener);
-
-        btnSeeSchedules.setOnClickListener(seeHoursListener);
-
-    }
-
-    private void setupUI(boolean activated, SharedPreferences preferences) {
-        if (activated) {
-            activator = true;
-
-            hours = preferences.getInt("hours", timerStartAlarms.getCurrentHour());
-            minutes = preferences.getInt("minutes", timerStartAlarms.getCurrentMinute());
-            amountsWater = preferences.getInt("amounts", 0);
-
-            timerStartAlarms.setCurrentHour(hours);
-            timerStartAlarms.setCurrentMinute(minutes);
-            editAmountsOfWater.setText(String.valueOf(amountsWater));
-
-            btnCalc.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_button_cancel));
-            btnCalc.setText(R.string.cancel);
-
-            btnSeeSchedules.setVisibility(View.VISIBLE);
-
-        }
-    }
-
     private final View.OnClickListener calcuListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -166,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog dialogConfirm = new AlertDialog.Builder(MainActivity.this)
                         .setTitle(R.string.alert_water_title)
                         .setMessage(R.string.alert_water_message)
-                        .setIcon(R.drawable.ic_launcher_foreground)
+                        .setIcon(R.mipmap.ic_icon_round)
                         .setPositiveButton(android.R.string.ok, ((dialog, which) -> {
                         }))
                         .setIcon(R.drawable.ic_info)
@@ -180,6 +122,66 @@ public class MainActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(editAmountsOfWater.getWindowToken(), 0);
         }
     };
+    private AdView mAdView;
+
+    private void setupUI(boolean activated, SharedPreferences preferences) {
+        if (activated) {
+            activator = true;
+
+            hours = preferences.getInt("hours", timerStartAlarms.getCurrentHour());
+            minutes = preferences.getInt("minutes", timerStartAlarms.getCurrentMinute());
+            amountsWater = preferences.getInt("amounts", 0);
+
+            timerStartAlarms.setCurrentHour(hours);
+            timerStartAlarms.setCurrentMinute(minutes);
+            editAmountsOfWater.setText(String.valueOf(amountsWater));
+
+            btnCalc.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_button_cancel));
+            btnCalc.setText(R.string.cancel);
+
+            btnSeeSchedules.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    @SuppressLint({"RestrictedApi", "UnspecifiedImmutableFlag"})
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        idListNotification = 0;
+
+        setSupportActionBar(findViewById(R.id.toolbar_main));
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle("");
+
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        mAdView = findViewById(R.id.ad_view_main);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        linearSeeSchedules = findViewById(R.id.linear_hours);
+
+        listSeeSchedules = findViewById(R.id.recycler_view_list_schedules);
+
+        timerStartAlarms = findViewById(R.id.timer);
+        timerStartAlarms.setIs24HourView(true);
+        editAmountsOfWater = findViewById(R.id.edit_amounts_of_water);
+
+        btnCalc = findViewById(R.id.btn_calcu);
+        btnSeeSchedules = findViewById(R.id.btn_see_schedules);
+
+        preferences = getSharedPreferences("db", Context.MODE_PRIVATE);
+        boolean activated = preferences.getBoolean("activated", false);
+
+        setupUI(activated, preferences);
+
+        btnCalc.setOnClickListener(calcuListener);
+
+        btnSeeSchedules.setOnClickListener(seeHoursListener);
+
+    }
 
     private final View.OnClickListener seeHoursListener = new View.OnClickListener() {
         @Override

@@ -186,7 +186,7 @@ public class ForegroundService extends Service {
                     .setContentText(getText(R.string.running_text_notification))
                     .setContentTitle(getText(R.string.app_name))
                     .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.mipmap.ic_launcher);
+                    .setSmallIcon(R.mipmap.ic_icon_round);
         }
 
         assert notification != null;

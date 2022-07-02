@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "509250530989",
+    "project_id": "bebaagua-864d0",
+    "storage_bucket": "bebaagua-864d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509250530989:android:eb4217d2cabc823253e024",
+        "android_client_info": {
+          "package_name": "com.example.bebaagua"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509250530989-d7qc3132fatf7vk39u33kqvgk3lotiqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOSGKYl5HVQWt8up4w9yDhveF-BQxn8cE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509250530989-d7qc3132fatf7vk39u33kqvgk3lotiqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

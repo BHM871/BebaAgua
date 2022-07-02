@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3315" />
         <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/drawable/bg_around.xml" value="0.2" />
         <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/drawable/bg_arround.xml" value="0.1335" />
         <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/drawable/bg_buttom_initial.xml" value="0.2225" />
@@ -20,6 +21,7 @@
         <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/layout/list_info.xml" value="0.2076923076923077" />
         <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/layout/list_notification.xml" value="0.28076923076923077" />
         <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/menu/menu.xml" value="0.20854700854700856" />
+        <entry key="..\:/Users/ander/AndroidStudioProjects/BebaAgua/app/src/main/res/mipmap-anydpi-v26/ic_icon.xml" value="0.229" />
         <entry key="..\:/Users/ander/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.28076923076923077" />
         <entry key="..\:/Users/rhuan/AndroidStudioProjects/BebaAgua/app/src/main/res/drawable/bg_button.xml" value="0.1855" />
         <entry key="..\:/Users/rhuan/AndroidStudioProjects/BebaAgua/app/src/main/res/drawable/bg_button_cancel.xml" value="0.1875" />
