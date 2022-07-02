@@ -66,6 +66,6 @@
         android:layout_centerHorizontal="true"
         android:background="@color/black_transparent"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-5918260836278976/9270314698" />
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
 </RelativeLayout>
