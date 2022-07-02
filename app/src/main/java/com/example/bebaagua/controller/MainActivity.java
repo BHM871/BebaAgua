@@ -63,6 +63,44 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean activator = false, seeOrNo = false;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        idListNotification = 0;
+
+        setSupportActionBar(findViewById(R.id.toolbar_main));
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle("");
+
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        AdView mAdView = findViewById(R.id.ad_view_main);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        linearSeeSchedules = findViewById(R.id.linear_hours);
+
+        listSeeSchedules = findViewById(R.id.recycler_view_list_schedules);
+
+        timerStartAlarms = findViewById(R.id.timer);
+        timerStartAlarms.setIs24HourView(true);
+        editAmountsOfWater = findViewById(R.id.edit_amounts_of_water);
+
+        btnCalc = findViewById(R.id.btn_calcu);
+        btnSeeSchedules = findViewById(R.id.btn_see_schedules);
+
+        preferences = getSharedPreferences("db", Context.MODE_PRIVATE);
+        boolean activated = preferences.getBoolean("activated", false);
+
+        setupUI(activated, preferences);
+
+        btnCalc.setOnClickListener(calcuListener);
+
+        btnSeeSchedules.setOnClickListener(seeHoursListener);
+
+    }
+
     private final View.OnClickListener calcuListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -157,44 +195,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        idListNotification = 0;
-
-        setSupportActionBar(findViewById(R.id.toolbar_main));
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle("");
-
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdView mAdView = findViewById(R.id.ad_view_main);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        linearSeeSchedules = findViewById(R.id.linear_hours);
-
-        listSeeSchedules = findViewById(R.id.recycler_view_list_schedules);
-
-        timerStartAlarms = findViewById(R.id.timer);
-        timerStartAlarms.setIs24HourView(true);
-        editAmountsOfWater = findViewById(R.id.edit_amounts_of_water);
-
-        btnCalc = findViewById(R.id.btn_calcu);
-        btnSeeSchedules = findViewById(R.id.btn_see_schedules);
-
-        preferences = getSharedPreferences("db", Context.MODE_PRIVATE);
-        boolean activated = preferences.getBoolean("activated", false);
-
-        setupUI(activated, preferences);
-
-        btnCalc.setOnClickListener(calcuListener);
-
-        btnSeeSchedules.setOnClickListener(seeHoursListener);
-
-    }
 
     private void setupUI(boolean activated, SharedPreferences preferences) {
         if (activated) {
