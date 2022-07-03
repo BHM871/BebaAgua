@@ -17,7 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -168,16 +168,44 @@ public class MainActivity extends AppCompatActivity {
     private final View.OnClickListener seeHoursListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Adapter adapter;
+            Adapter adapterMain;
             cont++;
             if (!seeOrNo) {
                 seeOrNo = true;
 
                 List<Alarm> alarms = getList();
-
                 listSeeSchedules.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                adapter = new Adapter(alarms);
-                listSeeSchedules.setAdapter(adapter);
+                adapterMain = new Adapter(alarms);
+                listSeeSchedules.setAdapter(adapterMain);
+
+                adapterMain.setListener(id -> {
+                    adapterMain.setList(getList());
+                    Alarm alarm = adapterMain.getItemList(id);
+
+                    new Thread(() -> {
+                        List<Alarm> alarmsDB = new ArrayList<>();
+
+                        if (alarm.getChecked() == 0) {
+                            DatabaseWater.getInstance(MainActivity.this).setChecked(
+                                    String.valueOf(alarm.getId()),
+                                    alarm.getHour(),
+                                    alarm.getMinute(),
+                                    1);
+
+                            alarmsDB.addAll(getList());
+                            adapterMain.setList(alarmsDB);
+                        } else {
+                            DatabaseWater.getInstance(MainActivity.this).setChecked(
+                                    String.valueOf(alarm.getId()),
+                                    alarm.getHour(),
+                                    alarm.getMinute(),
+                                    0);
+
+                            alarmsDB.addAll(getList());
+                            adapterMain.setList(alarmsDB);
+                        }
+                    }).start();
+                });
 
                 btnSeeSchedules.setText(R.string.back);
                 linearSeeSchedules.setVisibility(View.VISIBLE);
@@ -187,8 +215,8 @@ public class MainActivity extends AppCompatActivity {
                 List<Alarm> alarms = new ArrayList<>();
 
                 listSeeSchedules.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                adapter = new Adapter(alarms);
-                listSeeSchedules.setAdapter(adapter);
+                adapterMain = new Adapter(alarms);
+                listSeeSchedules.setAdapter(adapterMain);
 
                 btnSeeSchedules.setText(R.string.see_schedules);
                 linearSeeSchedules.setVisibility(View.GONE);
@@ -265,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
             else {
                 int finalHoursStart = hoursStart;
                 int finalMinutesStart = minutesStart;
-                int finalIndex = index + 1;
+                int finalIndex = index;
 
                 new Thread(() -> {
                     idListNotification = DatabaseWater.getInstance(MainActivity.this).addNotification(finalIndex, finalHoursStart, finalMinutesStart, 0);
@@ -413,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new ViewHolder(getLayoutInflater().inflate(android.R.layout.simple_list_item_1, parent, false));
+            return new ViewHolder(getLayoutInflater().inflate(R.layout.layout_list_notification, parent, false));
         }
 
         @Override
@@ -427,18 +455,27 @@ public class MainActivity extends AppCompatActivity {
             return list.size();
         }
 
-        private class ViewHolder extends RecyclerView.ViewHolder {
+        public Alarm getItemList(int id) {
+            return list.get(id);
+        }
+
+        public void setList(List<Alarm> list) {
+            this.list.addAll(list);
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
             }
 
             public void bind(Alarm item) {
-                TextView txtListSchedules = (TextView) itemView;
-                txtListSchedules.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                txtListSchedules.setText(getString(R.string.drink_water_at, item.hour, item.minute));
+                RadioButton radioButton = itemView.findViewById(R.id.radio_list);
 
-                txtListSchedules.setOnClickListener(v -> listener.onClick(item.getId()));
+                radioButton.setChecked(item.getChecked() == 1);
+                radioButton.setText(getString(R.string.drink_water_at, item.hour, item.minute));
+
+                radioButton.setOnClickListener(v -> listener.onClick(item.getId()));
 
             }
         }

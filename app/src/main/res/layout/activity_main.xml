@@ -5,9 +5,13 @@
     style="@style/BackgroundForm"
     tools:context=".controller.MainActivity">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true">
 
         <LinearLayout style="@style/LinearLayoutForm">
 
@@ -30,11 +34,22 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
         style="@style/ToolbarForm" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/black_transparent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+
 
     <LinearLayout
         android:id="@+id/linear_hours"
@@ -62,15 +77,5 @@
         style="@style/ButtonFormSee"
         android:layout_above="@id/ad_view_main"
         android:text="@string/see_schedules" />
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/black_transparent"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
 </RelativeLayout>

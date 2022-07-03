@@ -110,4 +110,27 @@ public class DatabaseWater extends SQLiteOpenHelper {
 
         return alarms;
     }
+
+    @SuppressLint("Range")
+    public void setChecked(String id, int hour, int minute, int checked) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+
+            ContentValues values = new ContentValues();
+            values.put("id", Integer.valueOf(id));
+            values.put("hour", hour);
+            values.put("minute", minute);
+            values.put("checked", checked);
+
+            db.update("alarm", values, "id = ?", new String[]{id});
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("SQLite", e.getMessage(), e);
+        } finally {
+            if (db.isOpen()) db.endTransaction();
+        }
+
+    }
 }
