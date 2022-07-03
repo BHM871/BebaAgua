@@ -51,16 +51,14 @@
         <item name="android:textColorHint">@color/white_transparent_hint</item>
         <item name="android:maxLength">4</item>
         <item name="android:maxEms">100</item>
-        <item name="android:layout_marginTop">64dp</item>
+        <item name="android:layout_marginTop">32dp</item>
     </style>
 
     <style name="ButtonForm">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/bg_button_initial</item>
-        <item name="android:layout_marginTop">64dp</item>
-        <item name="android:layout_marginStart">48dp</item>
-        <item name="android:layout_marginEnd">48dp</item>
+        <item name="android:layout_marginTop">32dp</item>
     </style>
 
     <style name="ButtonFormSee">

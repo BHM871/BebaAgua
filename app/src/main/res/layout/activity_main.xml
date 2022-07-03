@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/BackgroundForm"
     tools:context=".controller.MainActivity">
 
     <LinearLayout
-        style="@style/LinearLayoutForm"
-        android:layout_above="@id/ad_view_main">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TimePicker
-            android:id="@+id/timer"
-            style="@style/TimePickerForm" />
+        <LinearLayout style="@style/LinearLayoutForm">
 
-        <EditText
-            android:id="@+id/edit_amounts_of_water"
-            style="@style/EditTextForm"
-            android:hint="@string/amount_of_water"
-            android:importantForAutofill="no" />
+            <TimePicker
+                android:id="@+id/timer"
+                style="@style/TimePickerForm" />
 
-        <Button
-            android:id="@+id/btn_calcu"
-            style="@style/ButtonForm"
-            android:text="@string/calcu" />
+            <EditText
+                android:id="@+id/edit_amounts_of_water"
+                style="@style/EditTextForm"
+                android:hint="@string/amount_of_water"
+                android:importantForAutofill="no"
+                android:minHeight="48dp" />
+
+            <Button
+                android:id="@+id/btn_calcu"
+                style="@style/ButtonForm"
+                android:text="@string/calcu"
+                tools:ignore="TextContrastCheck" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -33,7 +39,6 @@
     <LinearLayout
         android:id="@+id/linear_hours"
         style="@style/LinearLayoutForm"
-        android:layout_gravity="bottom"
         android:background="@color/black_transparent"
         android:visibility="gone">
 
