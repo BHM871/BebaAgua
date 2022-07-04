@@ -23,7 +23,6 @@ import java.util.List;
 public class OpenInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class OpenInfoActivity extends AppCompatActivity {
 
         MobileAds.initialize(this, initializationStatus -> {
         });
-        mAdView = findViewById(R.id.ad_view_info);
+        AdView mAdView = findViewById(R.id.ad_view_info);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 

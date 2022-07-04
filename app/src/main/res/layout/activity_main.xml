@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/BackgroundForm"
     tools:context=".controller.MainActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal">
 
-        <LinearLayout style="@style/LinearLayoutForm">
+        <LinearLayout
+            android:id="@+id/linear_timer"
+            style="@style/LinearLayoutForm"
+            android:layout_gravity="top|center_horizontal">
 
             <TimePicker
                 android:id="@+id/timer"
@@ -34,48 +35,55 @@
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_main"
-        style="@style/ToolbarForm" />
+        style="@style/ToolbarForm"
+        android:layout_gravity="top|center_horizontal" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view_main"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/black_transparent"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
-
-
-    <LinearLayout
-        android:id="@+id/linear_hours"
-        style="@style/LinearLayoutForm"
-        android:background="@color/black_transparent"
-        android:visibility="gone">
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal">
 
         <LinearLayout
-            android:id="@+id/txt_see_schedules"
-            style="@style/LinearSeeSchedulesForm"
-            android:orientation="vertical">
+            android:id="@+id/linear_hours"
+            style="@style/LinearLayoutForm"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@color/black_transparent"
+            android:visibility="gone">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_list_schedules"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@android:layout/simple_list_item_1" />
+            <LinearLayout
+                android:id="@+id/txt_see_schedules"
+                style="@style/LinearSeeSchedulesForm"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_list_schedules"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/layout_list_notification" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/btn_see_schedules"
+            style="@style/ButtonFormSee"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="@string/see_schedules" />
 
-    <Button
-        android:id="@+id/btn_see_schedules"
-        style="@style/ButtonFormSee"
-        android:layout_above="@id/ad_view_main"
-        android:text="@string/see_schedules" />
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_view_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_transparent"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
-</RelativeLayout>
+    </FrameLayout>
+
+</FrameLayout>

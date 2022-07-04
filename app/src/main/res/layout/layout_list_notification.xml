@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="horizontal"
-    android:paddingVertical="10dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
-    <RadioButton
-        android:id="@+id/radio_list"
+    <CheckBox
+        android:id="@+id/checkbox_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:button="@drawable/ic_checked_false"
+        android:textSize="15sp"
+        android:textStyle="bold"
         tools:text="@string/drink_water_at" />
 
 </LinearLayout>

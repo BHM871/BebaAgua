@@ -15,9 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -183,8 +183,6 @@ public class MainActivity extends AppCompatActivity {
                     Alarm alarm = adapterMain.getItemList(id);
 
                     new Thread(() -> {
-                        List<Alarm> alarmsDB = new ArrayList<>();
-
                         if (alarm.getChecked() == 0) {
                             DatabaseWater.getInstance(MainActivity.this).setChecked(
                                     String.valueOf(alarm.getId()),
@@ -192,18 +190,15 @@ public class MainActivity extends AppCompatActivity {
                                     alarm.getMinute(),
                                     1);
 
-                            alarmsDB.addAll(getList());
-                            adapterMain.setList(alarmsDB);
                         } else {
                             DatabaseWater.getInstance(MainActivity.this).setChecked(
                                     String.valueOf(alarm.getId()),
                                     alarm.getHour(),
                                     alarm.getMinute(),
                                     0);
-
-                            alarmsDB.addAll(getList());
-                            adapterMain.setList(alarmsDB);
                         }
+                        List<Alarm> alarmsDB = new ArrayList<>(getList());
+                        adapterMain.setList(alarmsDB);
                     }).start();
                 });
 
@@ -470,12 +465,29 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void bind(Alarm item) {
-                RadioButton radioButton = itemView.findViewById(R.id.radio_list);
+                CheckBox checkBox = itemView.findViewById(R.id.checkbox_list);
 
-                radioButton.setChecked(item.getChecked() == 1);
-                radioButton.setText(getString(R.string.drink_water_at, item.hour, item.minute));
+                if (item.getChecked() == 1) {
+                    checkBox.setChecked(true);
+                    checkBox.setButtonDrawable(R.drawable.ic_checked_true);
+                } else {
+                    checkBox.setChecked(false);
+                    checkBox.setButtonDrawable(R.drawable.ic_checked_false);
+                }
+                checkBox.setText(getString(R.string.drink_water_at, item.hour, item.minute));
 
-                radioButton.setOnClickListener(v -> listener.onClick(item.getId()));
+                checkBox.setOnClickListener(v -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (item.getChecked() == 0) {
+                            checkBox.setChecked(true);
+                            checkBox.setButtonDrawable(R.drawable.ic_checked_true);
+                        } else {
+                            checkBox.setChecked(false);
+                            checkBox.setButtonDrawable(R.drawable.ic_checked_false);
+                        }
+                    }
+                    listener.onClick(item.getId());
+                });
 
             }
         }
