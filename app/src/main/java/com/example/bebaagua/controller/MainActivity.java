@@ -173,33 +173,20 @@ public class MainActivity extends AppCompatActivity {
             if (!seeOrNo) {
                 seeOrNo = true;
 
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 List<Alarm> alarms = getList();
                 listSeeSchedules.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                 adapterMain = new Adapter(alarms);
                 listSeeSchedules.setAdapter(adapterMain);
 
                 adapterMain.setListener(id -> {
-                    adapterMain.setList(getList());
                     Alarm alarm = adapterMain.getItemList(id);
-
-                    new Thread(() -> {
-                        if (alarm.getChecked() == 0) {
-                            DatabaseWater.getInstance(MainActivity.this).setChecked(
-                                    String.valueOf(alarm.getId()),
-                                    alarm.getHour(),
-                                    alarm.getMinute(),
-                                    1);
-
-                        } else {
-                            DatabaseWater.getInstance(MainActivity.this).setChecked(
-                                    String.valueOf(alarm.getId()),
-                                    alarm.getHour(),
-                                    alarm.getMinute(),
-                                    0);
-                        }
-                        List<Alarm> alarmsDB = new ArrayList<>(getList());
-                        adapterMain.setList(alarmsDB);
-                    }).start();
+                    setCheckedList(adapterMain, alarm);
                 });
 
                 btnSeeSchedules.setText(R.string.back);
@@ -373,16 +360,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean foregroundServiceRunning() {
-        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-
-        for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
-            if (ForegroundService.class.getName().equals(service.service.getClassName()))
-                return true;
-        }
-        return false;
-    }
-
     @SuppressLint("UnspecifiedImmutableFlag")
     private void cancelNotification() {
         if (notificationIntent == null) {
@@ -416,11 +393,41 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.cancel(broadcast);
     }
 
+    public void setCheckedList(Adapter adapterMain, Alarm alarm) {
+        adapterMain.setList(getList());
+        new Thread(() -> {
+            if (alarm.getChecked() == 0) {
+                DatabaseWater.getInstance(MainActivity.this).setChecked(
+                        String.valueOf(alarm.getId()),
+                        alarm.getHour(),
+                        alarm.getMinute(),
+                        1);
+            } else {
+                DatabaseWater.getInstance(MainActivity.this).setChecked(
+                        String.valueOf(alarm.getId()),
+                        alarm.getHour(),
+                        alarm.getMinute(),
+                        0);
+            }
+            adapterMain.setList(getList());
+        }).start();
+    }
+
+    private boolean foregroundServiceRunning() {
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            if (ForegroundService.class.getName().equals(service.service.getClassName()))
+                return true;
+        }
+        return false;
+    }
+
     private void alert(int resId) {
         Toast.makeText(MainActivity.this, resId, Toast.LENGTH_SHORT).show();
     }
 
-    private class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+    public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         private final List<Alarm> list;
         private ClickItem listener;
@@ -488,7 +495,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     listener.onClick(item.getId());
                 });
-
             }
         }
     }

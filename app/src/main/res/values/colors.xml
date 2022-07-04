@@ -14,6 +14,7 @@
     <color name="black_transparent">#99000000</color>
     <color name="black_transparent_hint">#BF000000</color>
     <color name="gray">#FFBDBDBD</color>
+    <color name="gray_transparent">#99BDBDBD</color>
     <color name="teal_200_transparent">#CC03DAC5</color>
     <color name="teal_500_transparent">#CC02B1A6</color>
     <color name="teal_700_transparent">#CC018786</color>

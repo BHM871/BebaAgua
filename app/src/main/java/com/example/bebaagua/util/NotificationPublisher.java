@@ -39,12 +39,12 @@ public class NotificationPublisher extends BroadcastReceiver {
         notificationManager.notify(id, notification);
     }
 
-    public Notification getNotification(String content, Context context, NotificationManager manager, PendingIntent intent) {
+    public Notification getNotification(String content, Context context, NotificationManager manager, PendingIntent intentMain) {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context.getApplicationContext())
                         .setContentText(content)
                         .setContentTitle(context.getString(R.string.alert))
-                        .setContentIntent(intent)
+                        .setContentIntent(intentMain)
                         .setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setSmallIcon(R.mipmap.ic_icon_round)

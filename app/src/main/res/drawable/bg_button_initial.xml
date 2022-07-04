@@ -4,11 +4,11 @@
     android:visible="true">
 
     <gradient
-        android:endColor="@android:color/transparent"
+        android:endColor="@color/gray_transparent"
         android:startColor="?attr/colorPrimary" />
     <stroke
         android:width="3dp"
-        android:color="@color/teal_500" />
+        android:color="?attr/colorPrimary" />
     <corners android:radius="50dp" />
 
 </shape>
