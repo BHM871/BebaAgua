@@ -26,6 +26,14 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="LinearLayoutSchedulesForm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@color/black_transparent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
     <style name="ToolbarForm">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

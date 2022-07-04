@@ -1,89 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/BackgroundForm"
     tools:context=".controller.MainActivity">
 
     <ScrollView
-        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/linear_timer"
-            style="@style/LinearLayoutForm"
-            android:layout_gravity="top|center_horizontal">
-
-            <TimePicker
-                android:id="@+id/timer"
-                style="@style/TimePickerForm" />
-
-            <EditText
-                android:id="@+id/edit_amounts_of_water"
-                style="@style/EditTextForm"
-                android:hint="@string/amount_of_water"
-                android:importantForAutofill="no"
-                android:minHeight="48dp" />
-
-            <Button
-                android:id="@+id/btn_calcu"
-                style="@style/ButtonForm"
-                android:text="@string/calcu"
-                tools:ignore="TextContrastCheck" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_main"
-        style="@style/ToolbarForm"
-        android:layout_gravity="top|center_horizontal" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal">
-
-        <LinearLayout
-            android:id="@+id/linear_hours"
-            style="@style/LinearLayoutForm"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:background="@color/black_transparent"
-            android:visibility="gone">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/txt_see_schedules"
-                style="@style/LinearSeeSchedulesForm"
-                android:orientation="vertical">
+                android:id="@+id/linear_timer"
+                style="@style/LinearLayoutForm"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_list_schedules"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/layout_list_notification" />
+                <TimePicker
+                    android:id="@+id/timer"
+                    style="@style/TimePickerForm" />
+
+                <EditText
+                    android:id="@+id/edit_amounts_of_water"
+                    style="@style/EditTextForm"
+                    android:hint="@string/amount_of_water"
+                    android:importantForAutofill="no"
+                    android:minHeight="48dp" />
+
+                <Button
+                    android:id="@+id/btn_calcu"
+                    style="@style/ButtonForm"
+                    android:text="@string/calcu"
+                    tools:ignore="TextContrastCheck" />
 
             </LinearLayout>
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_main"
+                style="@style/ToolbarForm"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linear_hours"
+        style="@style/LinearLayoutSchedulesForm"
+        android:visibility="gone"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/txt_see_schedules"
+            style="@style/LinearSeeSchedulesForm"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_list_schedules"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/layout_list_notification" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_see_schedules"
-            style="@style/ButtonFormSee"
-            android:layout_gravity="bottom|center_horizontal"
-            android:text="@string/see_schedules" />
+    </LinearLayout>
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/ad_view_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_transparent"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+    <Button
+        android:id="@+id/btn_see_schedules"
+        style="@style/ButtonFormSee"
+        android:text="@string/see_schedules"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent" />
 
-    </FrameLayout>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_transparent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
