@@ -5,7 +5,9 @@
     <item name="colorPrimary">@color/teal_200</item>
     <item name="colorPrimaryDark">@color/teal_500</item>
     <item name="colorAccent">@color/white</item>
+    <!-- Secondary brand color -->
     <item name="colorSecondary">@color/black</item>
+    <item name="colorOnPrimary">@color/gray_transparent</item>
     <!-- Status bar color. -->
     <item name="android:statusBarColor">@color/teal_200_transparent</item>
     <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
@@ -53,7 +55,7 @@
     <style name="EditTextForm">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textAlignment">center</item>
         <item name="android:inputType">number</item>
         <item name="android:textColorHint">@color/black_transparent_hint</item>
@@ -65,6 +67,7 @@
     <style name="ButtonForm">
         <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/bg_button_initial</item>
         <item name="android:layout_marginTop">32dp</item>
     </style>
@@ -73,7 +76,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">64dp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:layout_gravity">bottom</item>
         <item name="android:background">@android:color/transparent</item>
     </style>

@@ -5,7 +5,7 @@
 
     <gradient
         android:endColor="@color/red_transparent"
-        android:startColor="@color/black_transparent" />
+        android:startColor="?attr/colorOnPrimary" />
     <stroke
         android:width="3dp"
         android:color="@color/red_transparent" />

@@ -186,8 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
                 adapterMain.setListener(id -> {
                     adapterMain.setList(getList());
-                    Alarm alarm = adapterMain.getItemList(id);
-                    setCheckedList(adapterMain, alarm);
+                    setCheckedList(adapterMain, adapterMain.getItemList(id));
                 });
 
                 btnSeeSchedules.setText(R.string.back);

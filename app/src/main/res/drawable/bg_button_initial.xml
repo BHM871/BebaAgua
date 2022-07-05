@@ -4,7 +4,7 @@
     android:visible="true">
 
     <gradient
-        android:endColor="@color/gray_transparent"
+        android:endColor="?attr/colorOnPrimary"
         android:startColor="?attr/colorPrimary" />
     <stroke
         android:width="3dp"
