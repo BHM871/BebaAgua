@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 listSeeSchedules.setAdapter(adapterMain);
 
                 adapterMain.setListener(id -> {
+                    adapterMain.setList(getList());
                     Alarm alarm = adapterMain.getItemList(id);
                     setCheckedList(adapterMain, alarm);
                 });
@@ -296,7 +297,6 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Alarm> getList() {
         List<Alarm> alarms = new ArrayList<>();
-        new Thread(() -> {
             List<Alarm> temporaryAlarms = DatabaseWater.getInstance(MainActivity.this).getListNotification();
 
             for (int i = 0; i <= temporaryAlarms.size(); i++) {
@@ -309,7 +309,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        }).start();
         return alarms;
     }
 
@@ -394,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCheckedList(Adapter adapterMain, Alarm alarm) {
-        adapterMain.setList(getList());
         new Thread(() -> {
             if (alarm.getChecked() == 0) {
                 DatabaseWater.getInstance(MainActivity.this).setChecked(
@@ -458,10 +456,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public Alarm getItemList(int id) {
+            while (list.size() == 0) {
+                if (list.size() != 0) return list.get(id);
+            }
             return list.get(id);
         }
 
         public void setList(List<Alarm> list) {
+            this.list.clear();
             this.list.addAll(list);
         }
 
@@ -485,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
 
                 checkBox.setOnClickListener(v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (item.getChecked() == 0) {
+                        if (checkBox.isChecked()) {
                             checkBox.setChecked(true);
                             checkBox.setButtonDrawable(R.drawable.ic_checked_true);
                         } else {
