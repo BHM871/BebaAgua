@@ -1,4 +1,4 @@
-package com.example.bebaagua.controller;
+package com.example.bebaagua.API;
 
 public interface ClickItem {
     void onClick(int id);

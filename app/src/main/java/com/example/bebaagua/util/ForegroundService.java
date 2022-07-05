@@ -70,7 +70,8 @@ public class ForegroundService extends Service {
                         calendarAlarm = setCalendar(alarms.get(i).getHour(), alarms.get(i).getMinute());
                         dateAlarm = calendarAlarm.getTime();
 
-                        if (dateNow.getHours() == dateAlarm.getHours()
+                        if (alarms.get(i).getChecked() == 0
+                                && dateNow.getHours() == dateAlarm.getHours()
                                 && dateNow.getMinutes() == dateAlarm.getMinutes()) {
 
                             callNotificationWater(dateAlarm.getTime());
@@ -83,6 +84,11 @@ public class ForegroundService extends Service {
                         }
                     }
                 }
+
+                if (!(dateNow.getHours() >= dateStart.getHours())
+                        && !(dateNow.getMinutes() >= dateStart.getMinutes())
+                        && !(dateNow.getHours() < dateStop.getHours()))
+                    new Thread(() -> DatabaseWater.getInstance(getApplicationContext()).setCheckedFalse());
             }
         }).start();
 
@@ -128,7 +134,7 @@ public class ForegroundService extends Service {
         intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION, getApplicationContext().getString(R.string.hours_drink_water));
 
 
-        PendingIntent pendingIntent = null;
+        PendingIntent pendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getBroadcast(
                     getBaseContext(),
@@ -164,7 +170,7 @@ public class ForegroundService extends Service {
         Intent intentNotification = new Intent(getApplicationContext(), MainActivity.class);
         intentNotification.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        PendingIntent pendingIntent = null;
+        PendingIntent pendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getActivity(
                     getBaseContext(),

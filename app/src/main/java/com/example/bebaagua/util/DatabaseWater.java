@@ -62,7 +62,7 @@ public class DatabaseWater extends SQLiteOpenHelper {
     public long addNotification(int id, int hour, int minute, int checked) {
         SQLiteDatabase db = getWritableDatabase();
 
-        long idTask = 0;
+        long idTask;
         try {
             db.beginTransaction();
 
@@ -125,6 +125,26 @@ public class DatabaseWater extends SQLiteOpenHelper {
             values.put("checked", checked);
 
             db.update("alarm", values, "id = ?", new String[]{id});
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("SQLite", e.getMessage(), e);
+        } finally {
+            if (db.isOpen()) db.endTransaction();
+        }
+
+    }
+
+    @SuppressLint("Recycle")
+    public void setCheckedFalse() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+
+            for (int i = 0; i < getListNotification().size(); i++) {
+                db.execSQL("UPDATE alarm SET checked = 0 WHERE id = ?", new String[]{String.valueOf(i)});
+            }
+
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.e("SQLite", e.getMessage(), e);

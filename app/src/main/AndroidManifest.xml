@@ -31,8 +31,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".util.NotificationPublisher" />
-
         <service android:name=".util.ForegroundService" />
 
         <meta-data
