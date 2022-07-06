@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Beba Água</string>
 
     <string name="amount_of_water">Quantidade (ml)</string>
@@ -21,7 +21,7 @@
     <string name="how_much">Quanto beber?</string>
     <string name="how_muck_response">Para adultos deve-se beber por dia, em média, 2 litros de água potável.</string>
     <string name="benefits">Benefícios</string>
-    <string name="benefits_response">* Regula a temperatura corporal \n* Facilita a absorção de nutrientes \n* Evita doenças \n* Regula o intestino \n* Combate acne, celulite e estria \n* Facilita a digestão \n* Diminui o inchaço \n* Aumenta a imunidade \n* Reduz a fome \n* Melhora a circulação sanguínea \n* Funciona como rejuvenescedor natural \n* Ajuda a dissolver substâncias ruins \n* É essencial para os processos fisiológicos: absorção, digestão, excreção e assimilação</string>
+    <string name="benefits_response" tools:ignore="Typos">* Regula a temperatura corporal \n* Facilita a absorção de nutrientes \n* Evita doenças \n* Regula o intestino \n* Combate acne, celulite e estria \n* Facilita a digestão \n* Diminui o inchaço \n* Aumenta a imunidade \n* Reduz a fome \n* Melhora a circulação sanguínea \n* Funciona como rejuvenescedor natural \n* Ajuda a dissolver substâncias ruins \n* É essencial para os processos fisiológicos: absorção, digestão, excreção e assimilação</string>
 
     <string name="tutorial">Tutorial</string>
 
@@ -31,4 +31,5 @@
     <string name="alert">Alerta</string>
 
     <string name="error">Houve algum erro, tente novamente</string>
+    <string name="i_drank_water">Bebi água</string>
 </resources>

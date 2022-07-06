@@ -4,7 +4,6 @@
     package="com.example.bebaagua">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -32,13 +31,13 @@
         </activity>
 
         <receiver android:name=".util.NotificationPublisher" />
+        <receiver android:name=".util.CheckActivity" />
 
         <service android:name=".util.ForegroundService" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
-
     </application>
 
 </manifest>

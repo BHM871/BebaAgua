@@ -74,7 +74,7 @@ public class ForegroundService extends Service {
                                 && dateNow.getHours() == dateAlarm.getHours()
                                 && dateNow.getMinutes() == dateAlarm.getMinutes()) {
 
-                            callNotificationWater(dateAlarm.getTime());
+                            callNotificationWater(dateAlarm.getTime(), alarms.get(i).getId());
                             try {
                                 Thread.sleep(60000);
                             } catch (InterruptedException e) {
@@ -128,19 +128,20 @@ public class ForegroundService extends Service {
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private void callNotificationWater(long alarmHour) {
+    private void callNotificationWater(long alarmHour, int id) {
         Intent intentNotification = new Intent(getApplicationContext(), NotificationPublisher.class);
-        intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION_ID, 1001);
+        intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION_ID, 1);
         intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION, getApplicationContext().getString(R.string.hours_drink_water));
+        intentNotification.putExtra(NotificationPublisher.ID_ALARM, id);
 
 
         PendingIntent pendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             pendingIntent = PendingIntent.getBroadcast(
                     getBaseContext(),
                     0,
                     intentNotification,
-                    PendingIntent.FLAG_IMMUTABLE);
+                    PendingIntent.FLAG_MUTABLE);
         } else {
             pendingIntent = PendingIntent.getBroadcast(
                     getBaseContext(),

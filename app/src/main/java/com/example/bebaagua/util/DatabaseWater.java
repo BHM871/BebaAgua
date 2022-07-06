@@ -112,6 +112,29 @@ public class DatabaseWater extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
+    public Alarm getNotification(String id) {
+        Alarm alarm = new Alarm();
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM alarm WHERE id = ?", new String[]{id});
+
+        try {
+            if (cursor.moveToFirst()) {
+                alarm.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                alarm.setHour(cursor.getInt(cursor.getColumnIndex("hour")));
+                alarm.setMinute(cursor.getInt(cursor.getColumnIndex("minute")));
+                alarm.setChecked(cursor.getInt(cursor.getColumnIndex("checked")));
+            }
+        } catch (Exception e) {
+            Log.e("SQLite", e.getMessage(), e);
+        } finally {
+            if (cursor != null && !cursor.isClosed()) cursor.close();
+        }
+
+        return alarm;
+    }
+
+    @SuppressLint("Range")
     public void setChecked(String id, int hour, int minute, int checked) {
         SQLiteDatabase db = getWritableDatabase();
 
