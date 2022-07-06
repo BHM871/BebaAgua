@@ -38,8 +38,6 @@ public class ForegroundService extends Service {
         new Thread(() -> {
             activated = true;
 
-            List<Alarm> alarms = DatabaseWater.getInstance(getApplicationContext()).getListNotification();
-
             Bundle extras = intent.getExtras();
             Calendar calendarStart = setCalendar(extras.getInt(HOURS_FOREGROUND_START), extras.getInt(MINUTE_FOREGROUND_START));
             Date dateStart = calendarStart.getTime();
@@ -61,6 +59,8 @@ public class ForegroundService extends Service {
                 }
                 calendarNow = Calendar.getInstance();
                 dateNow = calendarNow.getTime();
+
+                List<Alarm> alarms = DatabaseWater.getInstance(getApplicationContext()).getListNotification();
 
                 if (dateNow.getHours() >= dateStart.getHours()
                         && dateNow.getMinutes() >= dateStart.getMinutes()
