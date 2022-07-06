@@ -51,6 +51,8 @@ public class ForegroundService extends Service {
             Calendar calendarAlarm;
             Date dateAlarm;
 
+            List<Alarm> alarms = DatabaseWater.getInstance(getApplicationContext()).getListNotification();
+
             while (activated) {
                 try {
                     Thread.sleep(5000);
@@ -59,8 +61,6 @@ public class ForegroundService extends Service {
                 }
                 calendarNow = Calendar.getInstance();
                 dateNow = calendarNow.getTime();
-
-                List<Alarm> alarms = DatabaseWater.getInstance(getApplicationContext()).getListNotification();
 
                 if (dateNow.getHours() >= dateStart.getHours()
                         && dateNow.getMinutes() >= dateStart.getMinutes()
