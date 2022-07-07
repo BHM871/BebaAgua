@@ -1,4 +1,3 @@
-# Beba Água
+# Drink Water
 
- É um app que notifica o usuário quando deve beber água, de acordo com suas preferências.
- Ele informa a quantidade de água que deseja beber durante o dia e quando as notificações devem começar.
+ It's an app that notifies the user when he should drink water, according to his preferences. It tells you how much water you want to drink during the day and when notifications should start.
