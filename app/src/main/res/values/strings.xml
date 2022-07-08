@@ -32,4 +32,5 @@
 
     <string name="error">Houve algum erro, tente novamente</string>
     <string name="i_drank_water">Bebi água</string>
+    <string name="check">Confirmado com sucesso</string>
 </resources>

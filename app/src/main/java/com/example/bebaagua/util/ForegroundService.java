@@ -20,6 +20,7 @@ import com.example.bebaagua.R;
 import com.example.bebaagua.controller.MainActivity;
 import com.example.bebaagua.model.Alarm;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -28,8 +29,6 @@ public class ForegroundService extends Service {
 
     public static final String HOURS_FOREGROUND_START = "hours_notification";
     public static final String MINUTE_FOREGROUND_START = "minute_notification";
-
-    public static final String LIST_ALARM = "list_hours_alarm";
 
     private static boolean activated = false;
 
@@ -51,7 +50,8 @@ public class ForegroundService extends Service {
             Calendar calendarAlarm;
             Date dateAlarm;
 
-            List<Alarm> alarms = DatabaseWater.getInstance(getApplicationContext()).getListNotification();
+            List<Alarm> alarms = new ArrayList<>();
+            new Thread(() -> alarms.addAll(DatabaseWater.getInstance(getApplicationContext()).getListNotification())).start();
 
             while (activated) {
                 try {
@@ -70,17 +70,15 @@ public class ForegroundService extends Service {
                         calendarAlarm = setCalendar(alarms.get(i).getHour(), alarms.get(i).getMinute());
                         dateAlarm = calendarAlarm.getTime();
 
-                        if (alarms.get(i).getChecked() == 0
-                                && dateNow.getHours() == dateAlarm.getHours()
+                        if (dateNow.getHours() == dateAlarm.getHours()
                                 && dateNow.getMinutes() == dateAlarm.getMinutes()) {
 
-                            callNotificationWater(dateAlarm.getTime(), alarms.get(i).getId());
+                            callNotificationWater(dateNow.getTime(), alarms.get(i).getId());
                             try {
                                 Thread.sleep(60000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            break;
                         }
                     }
                 }
@@ -133,7 +131,6 @@ public class ForegroundService extends Service {
         intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION_ID, 1);
         intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION, getApplicationContext().getString(R.string.hours_drink_water));
         intentNotification.putExtra(NotificationPublisher.ID_ALARM, id);
-
 
         PendingIntent pendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

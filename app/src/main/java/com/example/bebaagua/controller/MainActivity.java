@@ -250,8 +250,6 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     private void hoursOfAlarms(int hoursStart, int minutesStart, int interval) {
-        StringBuilder sControl = new StringBuilder();
-        sControl.append(getString(R.string.drink_water_at, hours, minutes)).append("\n");
         int index = 0;
 
         int finalIndex1 = index;
@@ -274,16 +272,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (hoursStart >= 23 && waterMax >= amountsWater) break;
             else {
-                int finalHoursStart = hoursStart;
-                int finalMinutesStart = minutesStart;
-                int finalIndex = index;
-
-                new Thread(() -> {
-                    idListNotification = DatabaseWater.getInstance(MainActivity.this).addNotification(finalIndex, finalHoursStart, finalMinutesStart, 0);
-                    runOnUiThread(() -> {
+                    idListNotification = DatabaseWater.getInstance(MainActivity.this).addNotification(index, hoursStart, minutesStart, 0);
                         if (idListNotification == 0) alert(R.string.error);
-                    });
-                }).start();
+
                 ++index;
 
                 waterMax += 250;
@@ -350,13 +341,14 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("UnspecifiedImmutableFlag")
     private void updateForegroundService(int hour, int minute) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intentForeground = new Intent(MainActivity.this, ForegroundService.class);
             intentForeground.putExtra(ForegroundService.HOURS_FOREGROUND_START, hour);
             intentForeground.putExtra(ForegroundService.MINUTE_FOREGROUND_START, minute);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intentForeground);
         }
+
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
