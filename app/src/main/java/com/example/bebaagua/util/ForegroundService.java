@@ -30,6 +30,8 @@ public class ForegroundService extends Service {
     public static final String HOURS_FOREGROUND_START = "hours_notification";
     public static final String MINUTE_FOREGROUND_START = "minute_notification";
 
+    public static int id_alarm = -1;
+
     private static boolean activated = false;
 
     @RequiresApi(api = Build.VERSION_CODES.S)
@@ -73,7 +75,8 @@ public class ForegroundService extends Service {
                         if (dateNow.getHours() == dateAlarm.getHours()
                                 && dateNow.getMinutes() == dateAlarm.getMinutes()) {
 
-                            callNotificationWater(dateNow.getTime(), alarms.get(i).getId());
+                            id_alarm = alarms.get(i).getId();
+                            callNotificationWater(dateNow.getTime());
                             try {
                                 Thread.sleep(60000);
                             } catch (InterruptedException e) {
@@ -126,11 +129,10 @@ public class ForegroundService extends Service {
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private void callNotificationWater(long alarmHour, int id) {
+    private void callNotificationWater(long alarmHour) {
         Intent intentNotification = new Intent(getApplicationContext(), NotificationPublisher.class);
         intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION_ID, 1);
         intentNotification.putExtra(NotificationPublisher.KEY_NOTIFICATION, getApplicationContext().getString(R.string.hours_drink_water));
-        intentNotification.putExtra(NotificationPublisher.ID_ALARM, id);
 
         PendingIntent pendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

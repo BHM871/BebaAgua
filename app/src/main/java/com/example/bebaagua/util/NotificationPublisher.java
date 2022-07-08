@@ -21,9 +21,6 @@ public class NotificationPublisher extends BroadcastReceiver {
     public static final String ID_NOTIFICATION_CHECK = "id_notification_check";
     public static final String CHECK = "check";
 
-    public static final String ID_ALARM = "id_alarm";
-    public static int id_alarm = 0;
-
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent ii = new Intent(context.getApplicationContext(), MainActivity.class);
@@ -31,7 +28,6 @@ public class NotificationPublisher extends BroadcastReceiver {
 
         Intent ii2 = new Intent(context.getApplicationContext(), CheckActivity.class);
         ii2.setAction(CHECK);
-        id_alarm = intent.getIntExtra(ID_ALARM, -1);
         ii2.putExtra(ID_NOTIFICATION_CHECK, 1);
 
         PendingIntent intentCheck = null;
