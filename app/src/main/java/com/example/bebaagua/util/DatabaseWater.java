@@ -48,9 +48,7 @@ public class DatabaseWater extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE alarm");
-        db.execSQL(
-                "CREATE TABLE alarm(id INTEGER primary key, hour INTEGER, minute INTEGER, checked INTEGER)"
-        );
+        onCreate(db);
 
     }
 

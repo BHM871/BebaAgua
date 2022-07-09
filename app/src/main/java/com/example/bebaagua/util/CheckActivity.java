@@ -9,15 +9,20 @@ import com.example.bebaagua.R;
 import com.example.bebaagua.model.Alarm;
 
 public class CheckActivity extends BroadcastReceiver {
+
+    private static DatabaseWater db;
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        db = new DatabaseWater(context);
+
         int id = ForegroundService.id_alarm;
         if (id == -1) Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
         else {
             new Thread(() -> {
-                Alarm notification = DatabaseWater.getInstance(context).getNotification(String.valueOf(id));
+                Alarm notification = db.getNotification(String.valueOf(id));
 
-                DatabaseWater.getInstance(context).setChecked(
+                db.setChecked(
                         String.valueOf(notification.getId()),
                         notification.getHour(),
                         notification.getMinute(),

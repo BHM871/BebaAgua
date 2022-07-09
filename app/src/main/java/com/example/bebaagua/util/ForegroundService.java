@@ -34,9 +34,12 @@ public class ForegroundService extends Service {
 
     private static boolean activated = false;
 
+    private static DatabaseWater db;
+
     @RequiresApi(api = Build.VERSION_CODES.S)
     public int onStartCommand(Intent intent, int flags, int startId) {
         new Thread(() -> {
+            db = new DatabaseWater(getApplicationContext());
             activated = true;
 
             Bundle extras = intent.getExtras();
@@ -53,7 +56,7 @@ public class ForegroundService extends Service {
             Date dateAlarm;
 
             List<Alarm> alarms = new ArrayList<>();
-            new Thread(() -> alarms.addAll(DatabaseWater.getInstance(getApplicationContext()).getListNotification())).start();
+            new Thread(() -> alarms.addAll(db.getListNotification())).start();
 
             while (activated) {
                 try {
@@ -84,12 +87,7 @@ public class ForegroundService extends Service {
                             }
                         }
                     }
-                }
-
-                if (!(dateNow.getHours() >= dateStart.getHours())
-                        && !(dateNow.getMinutes() >= dateStart.getMinutes())
-                        && !(dateNow.getHours() < dateStop.getHours()))
-                    new Thread(() -> DatabaseWater.getInstance(getApplicationContext()).setCheckedFalse());
+                } else new Thread(() -> db.setCheckedFalse());
             }
         }).start();
 

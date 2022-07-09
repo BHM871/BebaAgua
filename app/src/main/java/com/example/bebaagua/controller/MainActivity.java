@@ -44,6 +44,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static DatabaseWater db;
 
     private LinearLayout linearSeeSchedules;
     private RecyclerView listSeeSchedules;
@@ -63,45 +64,6 @@ public class MainActivity extends AppCompatActivity {
     private Intent intentForeground;
 
     private boolean activator = false, seeOrNo = false;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        idListNotification = 0;
-
-        setSupportActionBar(findViewById(R.id.toolbar_main));
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle("");
-
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdView mAdView = findViewById(R.id.ad_view_main);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        linearSeeSchedules = findViewById(R.id.linear_hours);
-
-        listSeeSchedules = findViewById(R.id.recycler_view_list_schedules);
-
-        timerStartAlarms = findViewById(R.id.timer);
-        timerStartAlarms.setIs24HourView(true);
-        editAmountsOfWater = findViewById(R.id.edit_amounts_of_water);
-
-        btnCalc = findViewById(R.id.btn_calcu);
-        btnSeeSchedules = findViewById(R.id.btn_see_schedules);
-
-        preferences = getSharedPreferences("db", Context.MODE_PRIVATE);
-        boolean activated = preferences.getBoolean("activated", false);
-
-        setupUI(activated, preferences);
-
-        btnCalc.setOnClickListener(calcuListener);
-
-        btnSeeSchedules.setOnClickListener(seeHoursListener);
-
-    }
-
     private final View.OnClickListener calcuListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -124,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 intentForeground = new Intent(MainActivity.this, ForegroundService.class);
                 stopService(intentForeground);
 
-                new Thread(() -> DatabaseWater.getInstance(MainActivity.this).deleteAll()).start();
+                new Thread(() -> db.deleteAll()).start();
 
                 alert(R.string.delete);
             }
@@ -166,6 +128,46 @@ public class MainActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(editAmountsOfWater.getWindowToken(), 0);
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        idListNotification = 0;
+        db = new DatabaseWater(MainActivity.this);
+
+        setSupportActionBar(findViewById(R.id.toolbar_main));
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle("");
+
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        AdView mAdView = findViewById(R.id.ad_view_main);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        linearSeeSchedules = findViewById(R.id.linear_hours);
+
+        listSeeSchedules = findViewById(R.id.recycler_view_list_schedules);
+
+        timerStartAlarms = findViewById(R.id.timer);
+        timerStartAlarms.setIs24HourView(true);
+        editAmountsOfWater = findViewById(R.id.edit_amounts_of_water);
+
+        btnCalc = findViewById(R.id.btn_calcu);
+        btnSeeSchedules = findViewById(R.id.btn_see_schedules);
+
+        preferences = getSharedPreferences("db", Context.MODE_PRIVATE);
+        boolean activated = preferences.getBoolean("activated", false);
+
+        setupUI(activated, preferences);
+
+        btnCalc.setOnClickListener(calcuListener);
+
+        btnSeeSchedules.setOnClickListener(seeHoursListener);
+
+    }
+
     private final View.OnClickListener seeHoursListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -254,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
         int finalIndex1 = index;
         new Thread(() -> {
-            idListNotification = DatabaseWater.getInstance(MainActivity.this).addNotification(finalIndex1, hours, minutes, 0);
+            idListNotification = db.addNotification(finalIndex1, hours, minutes, 0);
             runOnUiThread(() -> {
                 if (idListNotification == 0) alert(R.string.error);
             });
@@ -272,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (hoursStart >= 23 && waterMax >= amountsWater) break;
             else {
-                    idListNotification = DatabaseWater.getInstance(MainActivity.this).addNotification(index, hoursStart, minutesStart, 0);
+                idListNotification = db.addNotification(index, hoursStart, minutesStart, 0);
                         if (idListNotification == 0) alert(R.string.error);
 
                 ++index;
@@ -288,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Alarm> getList() {
         List<Alarm> alarms = new ArrayList<>();
-            List<Alarm> temporaryAlarms = DatabaseWater.getInstance(MainActivity.this).getListNotification();
+        List<Alarm> temporaryAlarms = db.getListNotification();
 
             for (int i = 0; i <= temporaryAlarms.size(); i++) {
 
@@ -387,13 +389,13 @@ public class MainActivity extends AppCompatActivity {
     public void setCheckedList(Adapter adapterMain, Alarm alarm) {
         new Thread(() -> {
             if (alarm.getChecked() == 0) {
-                DatabaseWater.getInstance(MainActivity.this).setChecked(
+                db.setChecked(
                         String.valueOf(alarm.getId()),
                         alarm.getHour(),
                         alarm.getMinute(),
                         1);
             } else {
-                DatabaseWater.getInstance(MainActivity.this).setChecked(
+                db.setChecked(
                         String.valueOf(alarm.getId()),
                         alarm.getHour(),
                         alarm.getMinute(),
