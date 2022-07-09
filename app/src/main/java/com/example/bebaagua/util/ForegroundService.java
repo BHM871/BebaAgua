@@ -60,7 +60,7 @@ public class ForegroundService extends Service {
 
             while (activated) {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
