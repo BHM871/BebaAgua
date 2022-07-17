@@ -9,7 +9,7 @@
         <item name="colorSecondary">@color/white</item>
         <item name="colorOnPrimary">@color/black_transparent</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/teal_500_transparent</item>
+        <item name="android:statusBarColor">@color/teal_500</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <!-- Customize your theme here. -->
     </style>

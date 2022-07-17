@@ -22,7 +22,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }).start();
 
-                AlertDialog dialogConfirm = new AlertDialog.Builder(MainActivity.this)
+                /*AlertDialog dialogConfirm = new AlertDialog.Builder(MainActivity.this)
                         .setTitle(R.string.save)
                         .setMessage(R.string.alert_water_message)
                         .setIcon(R.mipmap.ic_icon_round)
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                         }))
                         .setIcon(R.drawable.ic_info)
                         .create();
-                dialogConfirm.show();
+                dialogConfirm.show();*/
             }
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -218,6 +217,8 @@ public class MainActivity extends AppCompatActivity {
             minutes = preferences.getInt("minutes", timerStartAlarms.getCurrentMinute());
             amountsWater = preferences.getInt("amounts", 0);
 
+            if (foregroundServiceRunning()) updateForegroundService();
+
             timerStartAlarms.setCurrentHour(hours);
             timerStartAlarms.setCurrentMinute(minutes);
             editAmountsOfWater.setText(String.valueOf(amountsWater));
@@ -254,38 +255,25 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     private void hoursOfAlarms(int hoursStart, int minutesStart, int interval) {
         int index = 0;
+        int waterMax = 0;
 
-        int finalIndex1 = index;
-        new Thread(() -> {
-            idListNotification = db.addNotification(finalIndex1, hours, minutes, 0);
-            runOnUiThread(() -> {
-                if (idListNotification == 0) alert(R.string.error);
-            });
-        }).start();
-        ++index;
-        int waterMax = 250;
+        do {
+            if (hoursStart >= 23 && waterMax >= amountsWater) break;
 
-        while (hoursStart < 23 && waterMax < amountsWater) {
+            db.addNotification(index, hoursStart, minutesStart, 0);
+
+            ++index;
+            waterMax += 250;
+
             minutesStart += interval;
-
             while (minutesStart >= 60) {
                 hoursStart++;
                 minutesStart -= 60;
             }
-
-            if (hoursStart >= 23 && waterMax >= amountsWater) break;
-            else {
-                idListNotification = db.addNotification(index, hoursStart, minutesStart, 0);
-                        if (idListNotification == 0) alert(R.string.error);
-
-                ++index;
-
-                waterMax += 250;
-            }
-        }
+        } while (hoursStart < 23 && waterMax < amountsWater);
 
         if (!foregroundServiceRunning()) {
-            updateForegroundService(hours, minutes);
+            updateForegroundService();
         }
     }
 
@@ -293,16 +281,16 @@ public class MainActivity extends AppCompatActivity {
         List<Alarm> alarms = new ArrayList<>();
         List<Alarm> temporaryAlarms = db.getListNotification();
 
-            for (int i = 0; i <= temporaryAlarms.size(); i++) {
+        for (int i = 0; i <= temporaryAlarms.size(); i++) {
 
-                for (int j = 0; j < temporaryAlarms.size(); j++) {
+            for (int j = 0; j < temporaryAlarms.size(); j++) {
 
-                    if (temporaryAlarms.get(j).getId() == i) {
-                        Alarm alarm = temporaryAlarms.get(j);
-                        alarms.add(alarm);
-                    }
+                if (temporaryAlarms.get(j).getId() == i) {
+                    Alarm alarm = temporaryAlarms.get(j);
+                    alarms.add(alarm);
                 }
             }
+        }
         return alarms;
     }
 
@@ -343,10 +331,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private void updateForegroundService(int hour, int minute) {
-            intentForeground = new Intent(MainActivity.this, ForegroundService.class);
-            intentForeground.putExtra(ForegroundService.HOURS_FOREGROUND_START, hour);
-            intentForeground.putExtra(ForegroundService.MINUTE_FOREGROUND_START, minute);
+    private void updateForegroundService() {
+        intentForeground = new Intent(MainActivity.this, ForegroundService.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intentForeground);

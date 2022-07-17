@@ -20,15 +20,11 @@ import com.example.bebaagua.R;
 import com.example.bebaagua.controller.MainActivity;
 import com.example.bebaagua.model.Alarm;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class ForegroundService extends Service {
-
-    public static final String HOURS_FOREGROUND_START = "hours_notification";
-    public static final String MINUTE_FOREGROUND_START = "minute_notification";
 
     public static int id_alarm = -1;
 
@@ -42,8 +38,10 @@ public class ForegroundService extends Service {
             db = new DatabaseWater(getApplicationContext());
             activated = true;
 
+            List<Alarm> alarms = db.getListNotification();
+
             Bundle extras = intent.getExtras();
-            Calendar calendarStart = setCalendar(extras.getInt(HOURS_FOREGROUND_START), extras.getInt(MINUTE_FOREGROUND_START));
+            Calendar calendarStart = setCalendar(alarms.get(0).getHour(), alarms.get(0).getMinute());
             Date dateStart = calendarStart.getTime();
 
             Calendar calendarStop = setCalendar(23, 0);
@@ -54,9 +52,6 @@ public class ForegroundService extends Service {
 
             Calendar calendarAlarm;
             Date dateAlarm;
-
-            List<Alarm> alarms = new ArrayList<>();
-            new Thread(() -> alarms.addAll(db.getListNotification())).start();
 
             while (activated) {
                 try {
@@ -190,7 +185,7 @@ public class ForegroundService extends Service {
                     .setContentText(getText(R.string.running_text_notification))
                     .setContentTitle(getText(R.string.app_name))
                     .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.mipmap.ic_icon_round);
+                    .setSmallIcon(R.drawable.ic_drink);
         }
 
         assert notification != null;

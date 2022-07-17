@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -57,10 +58,9 @@ public class DatabaseWater extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM alarm");
     }
 
-    public long addNotification(int id, int hour, int minute, int checked) {
+    public void addNotification(int id, int hour, int minute, int checked) {
         SQLiteDatabase db = getWritableDatabase();
 
-        long idTask;
         try {
             db.beginTransaction();
 
@@ -70,13 +70,13 @@ public class DatabaseWater extends SQLiteOpenHelper {
             values.put("minute", minute);
             values.put("checked", checked);
 
-            idTask = db.insertOrThrow("alarm", null, values);
+            db.insertOrThrow("alarm", null, values);
             db.setTransactionSuccessful();
+        } catch (SQLException sE) {
+            Log.e("SQLite", sE.getMessage(), sE);
         } finally {
             if (db.isOpen()) db.endTransaction();
         }
-
-        return idTask;
     }
 
     @SuppressLint("Range")

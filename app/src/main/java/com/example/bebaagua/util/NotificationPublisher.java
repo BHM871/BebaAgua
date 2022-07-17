@@ -56,7 +56,7 @@ public class NotificationPublisher extends BroadcastReceiver {
                         .setContentIntent(intentMain)
                         .addAction(R.drawable.ic_checked_true, context.getString(R.string.i_drank_water), intentCheck)
                         .setAutoCancel(true)
-                        .setSmallIcon(R.mipmap.ic_icon_round)
+                        .setSmallIcon(R.drawable.ic_drink)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         String channelId = "YOUR_CHANNEL_ID";

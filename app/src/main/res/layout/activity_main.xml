@@ -22,7 +22,8 @@
 
                 <TimePicker
                     android:id="@+id/timer"
-                    style="@style/TimePickerForm" />
+                    style="@style/TimePickerForm"
+                    android:headerBackground="@drawable/bg_timer_picker" />
 
                 <EditText
                     android:id="@+id/edit_amounts_of_water"
@@ -78,6 +79,7 @@
         android:id="@+id/btn_see_schedules"
         style="@style/ButtonFormSee"
         android:text="@string/see_schedules"
+        android:visibility="gone"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent" />
