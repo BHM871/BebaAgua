@@ -22,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout linearSeeSchedules;
     private RecyclerView listSeeSchedules;
-    private long idListNotification;
 
     private TimePicker timerStartAlarms;
     private EditText editAmountsOfWater;
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        idListNotification = 0;
         db = new DatabaseWater(MainActivity.this);
 
         setSupportActionBar(findViewById(R.id.toolbar_main));
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }).start();
 
-                /*AlertDialog dialogConfirm = new AlertDialog.Builder(MainActivity.this)
+                AlertDialog dialogConfirm = new AlertDialog.Builder(MainActivity.this)
                         .setTitle(R.string.save)
                         .setMessage(R.string.alert_water_message)
                         .setIcon(R.mipmap.ic_icon_round)
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                         }))
                         .setIcon(R.drawable.ic_info)
                         .create();
-                dialogConfirm.show();*/
+                dialogConfirm.show();
             }
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

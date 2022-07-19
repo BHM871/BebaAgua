@@ -44,9 +44,6 @@ public class ForegroundService extends Service {
             Calendar calendarStart = setCalendar(alarms.get(0).getHour(), alarms.get(0).getMinute());
             Date dateStart = calendarStart.getTime();
 
-            Calendar calendarStop = setCalendar(23, 0);
-            Date dateStop = calendarStop.getTime();
-
             Calendar calendarNow;
             Date dateNow;
 
@@ -62,9 +59,7 @@ public class ForegroundService extends Service {
                 calendarNow = Calendar.getInstance();
                 dateNow = calendarNow.getTime();
 
-                if (dateNow.getHours() >= dateStart.getHours()
-                        && dateNow.getMinutes() >= dateStart.getMinutes()
-                        && dateNow.getHours() < dateStop.getHours()) {
+                if (validateHours(dateNow, dateStart)) {
 
                     for (int i = 0; i < alarms.size(); i++) {
                         calendarAlarm = setCalendar(alarms.get(i).getHour(), alarms.get(i).getMinute());
@@ -82,7 +77,11 @@ public class ForegroundService extends Service {
                             }
                         }
                     }
-                } else new Thread(() -> db.setCheckedFalse());
+                } else {
+                    for (int i = 0; i < db.getListNotification().size(); i++) {
+                        if (db.getListNotification().get(i).getChecked() == 1) db.setCheckedFalse();
+                    }
+                }
             }
         }).start();
 
@@ -111,6 +110,14 @@ public class ForegroundService extends Service {
             super.onDestroy();
         }).start();
 
+    }
+
+    private boolean validateHours(Date dateNow, Date dateStart) {
+        if (dateNow.getHours() < dateStart.getHours() || dateNow.getHours() >= 23) return false;
+        if (dateNow.getHours() == dateStart.getHours()) {
+            return dateNow.getMinutes() >= dateStart.getMinutes();
+        }
+        return true;
     }
 
     private Calendar setCalendar(int hours, int minutes) {
